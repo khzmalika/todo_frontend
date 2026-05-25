@@ -1,4 +1,5 @@
 import { TodoItem } from './components/TodoItem/TodoItem.tsx';
+import { TodoForm } from './components/Todoform/Todoform.tsx';
 import './App.css'
 import type { TodoItemType } from "./shared/types.ts";
 import { useState } from "react";
@@ -35,6 +36,15 @@ function App() {
     });
   }
 
+  const handleAddTodo = (todoItem: TodoItemType) => {
+    setTodos((prevState) => {
+      return [
+        ...prevState,
+        todoItem
+      ]
+    });
+  }
+
   // TODO: реализовать компонент TodoForm для добавления новой задачи.
   //
   // Подсказки:
@@ -54,7 +64,7 @@ function App() {
 
   return (
       <div className="todo-list">
-        {/* Сюда позже нужно добавить <TodoForm onAdd={handleAddTodo} /> */}
+        <TodoForm onAdd={handleAddTodo} />
         {todos.map((value) => (
             <TodoItem id={value.id} key={value.id} label={value.label} done={value.isChecked} onChange={handleTaskCheckedChange} />
         ))}
