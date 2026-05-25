@@ -3,6 +3,7 @@ import { TodoForm } from './components/Todoform/Todoform.tsx';
 import './App.css'
 import type { TodoItemType } from "./shared/types.ts";
 import { useState } from "react";
+import logo from './assets/icon.png';
 
 const mockTodos: TodoItemType[] = [{
   id: 1,
@@ -45,29 +46,32 @@ function App() {
     });
   }
 
-  // TODO: реализовать компонент TodoForm для добавления новой задачи.
-  //
-  // Подсказки:
-  // 1. Создайте новый компонент в src/components/TodoForm/TodoForm.tsx
-  // 2. Внутри компонента понадобится:
-  //    - поле ввода <input /> для текста новой задачи
-  //    - локальное состояние через useState для хранения введённого текста
-  //    - кнопка "Добавить задачу", по клику на которую вызывается колбэк из props
-  // 3. Опишите тип пропсов, например:
-  //      type TodoFormProps = { onAdd: (todoItem: TodoItemType) => void }
-  // 4. В App.tsx:
-  //    - импортируйте TodoForm
-  //    - напишите функцию handleAddTodo, которая через setTodos добавит новую задачу в список
-  //      (не забудьте сгенерировать уникальный id — например, через Date.now() или crypto.randomUUID())
-  //    - добавьте <TodoForm onAdd={handleAddTodo} /> над списком задач
-  // 5. Подумайте про крайние случаи: пустая строка, пробелы, очистка инпута после добавления.
+  const completedCount = todos.filter((value) => value.isChecked).length;
 
   return (
-      <div className="todo-list">
-        <TodoForm onAdd={handleAddTodo} />
-        {todos.map((value) => (
-            <TodoItem id={value.id} key={value.id} label={value.label} done={value.isChecked} onChange={handleTaskCheckedChange} />
-        ))}
+      <div className="page">
+        <div className="app-card">
+          <header className="app-header">
+            <div>
+              <h1>Мой список задач</h1>
+              <p className="app-subtitle">
+                Выполнено {completedCount} из {todos.length}
+              </p>
+            </div>
+
+            <div className="app-logo">
+              <img src={logo} alt="logo" />
+            </div>
+          </header>
+
+          <TodoForm onAdd={handleAddTodo} />
+
+          <div className="todo-list">
+            {todos.map((value) => (
+                <TodoItem id={value.id} key={value.id} label={value.label} done={value.isChecked} onChange={handleTaskCheckedChange} />
+            ))}
+          </div>
+        </div>
       </div>
   )
 }
